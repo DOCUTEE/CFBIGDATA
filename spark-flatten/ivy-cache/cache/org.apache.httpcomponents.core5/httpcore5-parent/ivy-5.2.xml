@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+	<info organisation="org.apache.httpcomponents.core5"
+		module="httpcore5-parent"
+		revision="5.2"
+		status="release"
+		publication="20221103121740"
+	>
+		<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt" />
+		<description homepage="https://hc.apache.org/httpcomponents-core-5.2.x/${project.version}/">
+		Apache HttpComponents Core is a library of components for building HTTP enabled services
+		</description>
+		<m:properties__conscrypt.version>2.5.2</m:properties__conscrypt.version>
+		<m:properties__api.comparison.version>5.1</m:properties__api.comparison.version>
+		<m:properties__hc.animal-sniffer.signature.ignores>javax.net.ssl.SSLEngine,javax.net.ssl.SSLParameters,java.nio.ByteBuffer,java.nio.CharBuffer</m:properties__hc.animal-sniffer.signature.ignores>
+		<m:properties__maven.compiler.source>1.8</m:properties__maven.compiler.source>
+		<m:properties__maven.compiler.showDeprecation>true</m:properties__maven.compiler.showDeprecation>
+		<m:properties__mockito.version>4.8.0</m:properties__mockito.version>
+		<m:properties__rxjava.version>2.2.21</m:properties__rxjava.version>
+		<m:properties__hamcrest.version>2.2</m:properties__hamcrest.version>
+		<m:properties__maven.compiler.target>1.8</m:properties__maven.compiler.target>
+		<m:properties__rxjava3.version>3.1.5</m:properties__rxjava3.version>
+		<m:properties__slf4j.version>1.7.36</m:properties__slf4j.version>
+		<m:properties__junit.migrationsupport.version>5.0.0</m:properties__junit.migrationsupport.version>
+		<m:properties__log4j.version>2.19.0</m:properties__log4j.version>
+		<m:properties__junit.version>5.9.1</m:properties__junit.version>
+		<m:properties__hc.japicmp.version>0.16.0</m:properties__hc.japicmp.version>
+		<m:properties__hc.surefire.version>3.0.0-M7</m:properties__hc.surefire.version>
+		<m:properties__hc.animal-sniffer.signature.version>1.0</m:properties__hc.animal-sniffer.signature.version>
+		<m:properties__project.reporting.outputEncoding>UTF-8</m:properties__project.reporting.outputEncoding>
+		<m:properties__hc.jxr.version>3.3.0</m:properties__hc.jxr.version>
+		<m:properties__hc.checkstyle.version>3.2.0</m:properties__hc.checkstyle.version>
+		<m:properties__hc.site.url>scp://people.apache.org/www/hc.apache.org/</m:properties__hc.site.url>
+		<m:properties__project.build.sourceEncoding>UTF-8</m:properties__project.build.sourceEncoding>
+		<m:properties__project.build.outputTimestamp>2021-01-10T15:31:00Z</m:properties__project.build.outputTimestamp>
+		<m:properties__hc.project-info.version>3.4.1</m:properties__hc.project-info.version>
+		<m:properties__hc.javadoc.version>3.4.1</m:properties__hc.javadoc.version>
+		<m:properties__animal-sniffer.signature>java${javaTarget.majorVersion}${javaTarget.minorVersion}</m:properties__animal-sniffer.signature>
+		<m:properties__minimalJavaBuildVersion>1.8</m:properties__minimalJavaBuildVersion>
+		<m:properties__maven.plugin.tools.version>3.6.4</m:properties__maven.plugin.tools.version>
+		<m:properties__distMgmtSnapshotsUrl>https://repository.apache.org/content/repositories/snapshots</m:properties__distMgmtSnapshotsUrl>
+		<m:properties__minimalMavenBuildVersion>3.2.5</m:properties__minimalMavenBuildVersion>
+		<m:properties__surefire.version>2.22.2</m:properties__surefire.version>
+		<m:properties__sourceReleaseAssemblyDescriptor>source-release</m:properties__sourceReleaseAssemblyDescriptor>
+		<m:properties__organization.logo>https://www.apache.org/images/asf_logo_wide_2016.png</m:properties__organization.logo>
+		<m:properties__gpg.useagent>true</m:properties__gpg.useagent>
+		<m:properties__distMgmtSnapshotsName>Apache Development Snapshot Repository</m:properties__distMgmtSnapshotsName>
+		<m:properties__assembly.tarLongFileMode>posix</m:properties__assembly.tarLongFileMode>
+		<m:dependency.management__org.apache.maven.plugin-tools__maven-plugin-annotations__version>3.6.4</m:dependency.management__org.apache.maven.plugin-tools__maven-plugin-annotations__version>
+		<m:maven.plugins>org.apache.maven.plugins__maven-remote-resources-plugin__null|org.apache.maven.plugins__maven-enforcer-plugin__null|org.apache.maven.plugins__maven-site-plugin__null|org.apache.maven.plugins__maven-remote-resources-plugin__null|org.apache.maven.plugins__maven-enforcer-plugin__null|org.apache.maven.plugins__maven-site-plugin__null|org.apache.rat__apache-rat-plugin__null|null__maven-jar-plugin__null|org.codehaus.mojo__build-helper-maven-plugin__3.2.0|org.codehaus.mojo__animal-sniffer-maven-plugin__1.22|org.apache.maven.plugins__maven-remote-resources-plugin__null|org.apache.maven.plugins__maven-enforcer-plugin__null|org.apache.maven.plugins__maven-site-plugin__null|org.apache.maven.plugins__maven-remote-resources-plugin__null|org.apache.maven.plugins__maven-enforcer-plugin__null|org.apache.maven.plugins__maven-site-plugin__null|org.apache.rat__apache-rat-plugin__null|null__maven-jar-plugin__null|org.codehaus.mojo__build-helper-maven-plugin__3.2.0|org.codehaus.mojo__animal-sniffer-maven-plugin__1.22|null__maven-jar-plugin__null|null__maven-javadoc-plugin__null|org.apache.maven.plugins__maven-checkstyle-plugin__null|com.github.siom79.japicmp__japicmp-maven-plugin__null|org.apache.rat__apache-rat-plugin__null</m:maven.plugins>
+		<m:dependency.management__org.apache.httpcomponents.core5__httpcore5__version>5.2</m:dependency.management__org.apache.httpcomponents.core5__httpcore5__version>
+		<m:dependency.management__org.apache.httpcomponents.core5__httpcore5-h2__version>5.2</m:dependency.management__org.apache.httpcomponents.core5__httpcore5-h2__version>
+		<m:dependency.management__org.apache.httpcomponents.core5__httpcore5-reactive__version>5.2</m:dependency.management__org.apache.httpcomponents.core5__httpcore5-reactive__version>
+		<m:dependency.management__org.apache.httpcomponents.core5__httpcore5-testing__version>5.2</m:dependency.management__org.apache.httpcomponents.core5__httpcore5-testing__version>
+		<m:dependency.management__org.conscrypt__conscrypt-openjdk-uber__version>2.5.2</m:dependency.management__org.conscrypt__conscrypt-openjdk-uber__version>
+		<m:dependency.management__org.junit.jupiter__junit-jupiter__version>5.9.1</m:dependency.management__org.junit.jupiter__junit-jupiter__version>
+		<m:dependency.management__org.junit.jupiter__junit-jupiter-api__version>5.9.1</m:dependency.management__org.junit.jupiter__junit-jupiter-api__version>
+		<m:dependency.management__org.junit.jupiter__junit-jupiter-engine__version>5.9.1</m:dependency.management__org.junit.jupiter__junit-jupiter-engine__version>
+		<m:dependency.management__org.junit.jupiter__junit-jupiter-migrationsupport__version>5.9.1</m:dependency.management__org.junit.jupiter__junit-jupiter-migrationsupport__version>
+		<m:dependency.management__org.junit.jupiter__junit-jupiter-params__version>5.9.1</m:dependency.management__org.junit.jupiter__junit-jupiter-params__version>
+		<m:dependency.management__org.junit.platform__junit-platform-commons__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-commons__version>
+		<m:dependency.management__org.junit.platform__junit-platform-console__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-console__version>
+		<m:dependency.management__org.junit.platform__junit-platform-engine__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-engine__version>
+		<m:dependency.management__org.junit.platform__junit-platform-jfr__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-jfr__version>
+		<m:dependency.management__org.junit.platform__junit-platform-launcher__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-launcher__version>
+		<m:dependency.management__org.junit.platform__junit-platform-reporting__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-reporting__version>
+		<m:dependency.management__org.junit.platform__junit-platform-runner__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-runner__version>
+		<m:dependency.management__org.junit.platform__junit-platform-suite__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-suite__version>
+		<m:dependency.management__org.junit.platform__junit-platform-suite-api__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-suite-api__version>
+		<m:dependency.management__org.junit.platform__junit-platform-suite-commons__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-suite-commons__version>
+		<m:dependency.management__org.junit.platform__junit-platform-suite-engine__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-suite-engine__version>
+		<m:dependency.management__org.junit.platform__junit-platform-testkit__version>1.9.1</m:dependency.management__org.junit.platform__junit-platform-testkit__version>
+		<m:dependency.management__org.junit.vintage__junit-vintage-engine__version>5.9.1</m:dependency.management__org.junit.vintage__junit-vintage-engine__version>
+		<m:dependency.management__org.hamcrest__hamcrest__version>2.2</m:dependency.management__org.hamcrest__hamcrest__version>
+		<m:dependency.management__org.hamcrest__hamcrest__scope>test</m:dependency.management__org.hamcrest__hamcrest__scope>
+		<m:dependency.management__org.mockito__mockito-core__version>4.8.0</m:dependency.management__org.mockito__mockito-core__version>
+		<m:dependency.management__org.mockito__mockito-core__scope>test</m:dependency.management__org.mockito__mockito-core__scope>
+		<m:dependency.management__org.slf4j__slf4j-api__version>1.7.36</m:dependency.management__org.slf4j__slf4j-api__version>
+		<m:dependency.management__org.apache.logging.log4j__log4j-slf4j-impl__version>2.19.0</m:dependency.management__org.apache.logging.log4j__log4j-slf4j-impl__version>
+		<m:dependency.management__org.apache.logging.log4j__log4j-core__version>2.19.0</m:dependency.management__org.apache.logging.log4j__log4j-core__version>
+	</info>
+	<configurations>
+		<conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
+		<conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies"/>
+		<conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
+		<conf name="provided" visibility="public" description="this is much like compile, but indicates you expect the JDK or a container to provide it. It is only available on the compilation classpath, and is not transitive."/>
+		<conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
+		<conf name="test" visibility="public" description="this scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases." extends="runtime"/>
+		<conf name="system" visibility="public" description="this scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository."/>
+		<conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
+		<conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
+		<conf name="optional" visibility="public" description="contains all optional dependencies"/>
+	</configurations>
+	<publications>
+	</publications>
+</ivy-module>

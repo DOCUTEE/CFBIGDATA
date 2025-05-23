@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   broker:
     image: apache/kafka:latest
     hostname: broker
-    container_name: broker
+    container_name: cf-broker
     ports:
       - '9092:9092'
     environment:
@@ -24,9 +22,20 @@ services:
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
-  spark-bronze:
-    image: bitnami/spark:3.4.3
-    container_name: spark-bronze
+  
+  fake-stream: 
+    image: ubuntu
+    container_name: cf-fake-stream
+    hostname: cf-fake-stream
+    ports: 
+      - '7777:7777'
+    volumes:
+      - ./fake-stream:/opt/fake-stream
+
+  spark-clean:
+    image: apache/spark:latest
+    container_name: cf-spark-clean
+    hostname: cf-spark-clean
     environment:
       - SPARK_MODE=master
     ports:
@@ -34,14 +43,74 @@ services:
     volumes:
       - ./spark-app:/opt/spark-app
     command: sleep infinity
+
+  spark-flatten:
+    image: apache/spark:latest
+    container_name: cf-spark-flatten
+    hostname: cf-spark-flatten
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - "4041:4041"  # UI Spark Web
+    volumes:
+      - ./spark-app:/opt/spark-app
+    command: sleep infinity
+
+  spark-transform:
+    image: apache/spark:latest
+    container_name: cf-spark-transform
+    hostname: cf-spark-transform
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - "4042:4042"  # UI Spark Web
+    volumes:
+      - ./spark-app:/opt/spark-app
+      - ./spark-transform/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+      - ./ivy-cache:/home/spark/.ivy2 
+    command: sleep infinity
+
+  superset:
+    image: apache/superset:latest
+    container_name: cf-superset
+    hostname: cf-superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_ENV: production
+      SUPERSET_SECRET_KEY: mysecret
+    command: superset fab create-admin --username admin --password admin --firstname Admin --lastname User --email admin@admin.com
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cf-grafana
+    hostname: cf-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_AUTH_ANONYMOUS_ORG_ID: 1
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - clickhouse
   
   clickhouse:
     image: clickhouse/clickhouse-server:latest
+    container_name: cf-clickhouse
+    hostname: cf-clickhouse
+    environment:
+      CLICKHOUSE_USER: root
+      CLICKHOUSE_PASSWORD: root
+      CLICKHOUSE_DB: default
     ports:
       - "8123:8123"
       - "9000:9000"
     volumes:
       - clickhouse-data:/var/lib/clickhouse
+
 volumes:
   clickhouse-data:
   grafana-data:

@@ -1,2 +1,8 @@
 env/
 test/
+readParquet.py
+Submission_contest_2096.json
+Submission_contest_2096.parquet
+producer.py
+spark-transform/checkpoint/
+spark-transform/delta-data/

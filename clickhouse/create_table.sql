@@ -1,18 +1,20 @@
 CREATE DATABASE IF NOT EXISTS cf; 
 USE cf; 
-CREATE TABLE submissions (
+DROP TABLE IF EXISTS cf.submissions;
+CREATE TABLE IF NOT EXISTS cf.submissions (
     id UInt64,
-    handle String,
-    verdict String,
+    relativeTimeSeconds UInt32,
     programmingLanguage String,
+    verdict String,
     passedTestCount UInt32,
     timeConsumedMillis UInt32,
     memoryConsumedBytes UInt64,
-    contestId UInt32,
-    problemIndex String,
-    problemName String,
-    problemPoints Float64,
-    problemRating UInt32,
-    problem_tag String
+    handle String,
+    problem_contestId UInt32,
+    problem_index String,
+    problem_name String,
+    problem_points UInt32,
+    problem_rating UInt32,
+    tag String
 ) ENGINE = MergeTree()
-ORDER BY id;
+ORDER BY (id, tag)

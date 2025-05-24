@@ -25,27 +25,6 @@ services:
     volumes:
       - ./kafka/:/home/appuser/
 
-  spark-flatten:
-    image: apache/spark:3.4.4
-    container_name: cf-spark-flatten
-    hostname: cf-spark-flatten
-    environment:
-      - SPARK_MODE=master
-      - HOME=/opt/spark/work-dir
-    ports:
-      - "4041:4041"  # UI Spark Web
-    volumes:
-      - ./spark-app:/opt/spark-app
-      - ./spark-flatten/ivy-cache:/home/spark/.ivy2 
-      - ./spark-flatten/conf:/opt/spark/conf/
-      - ./spark-flatten/home/:/opt/spark/work-dir
-    command: sleep infinity
-
-  spark-transform:
-    image: apache/spark:3.4.4
-    container_name: cf-spark-transform
-    hostname: cf-spark-transform
-  
   fake-stream: 
     build: 
       context: ./fake-stream
@@ -77,6 +56,22 @@ services:
       - ./spark-clean/work-dir:/opt/spark/work-dir
       - ./spark-clean/conf:/opt/spark/conf
       - ./spark-flatten/ivy-cache:/home/spark/.ivy2
+    command: sleep infinity
+
+  spark-flatten:
+    image: apache/spark:3.4.4
+    container_name: cf-spark-flatten
+    hostname: cf-spark-flatten
+    environment:
+      - SPARK_MODE=master
+      - HOME=/opt/spark/work-dir
+    ports:
+      - "4041:4041"  # UI Spark Web
+    volumes:
+      - ./spark-app:/opt/spark-app
+      - ./spark-flatten/ivy-cache:/home/spark/.ivy2 
+      - ./spark-flatten/conf:/opt/spark/conf/
+      - ./spark-flatten/work-dir/:/opt/spark/work-dir
     command: sleep infinity
 
   superset:
@@ -120,7 +115,56 @@ services:
     volumes:
       - ./clickhouse:/home/clickhouse/
       - clickhouse-data:/var/lib/clickhouse
+  
+  postgres:
+    image: postgres:17
+    container_name: cf-postgres
+    hostname: cf-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  airflow:
+    image: apache/airflow:3.0.0
+    container_name: cf-airflow
+    hostname: cf-airflow
+    depends_on:
+      - postgres
+    environment:  
+      _AIRFLOW_WWW_USER_USERNAME: cf
+      _AIRFLOW_WWW_USER_PASSWORD: cf
+      AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@cf-postgres:5432/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/config:/opt/airflow/config
+      - ./airflow/requirements.txt:/requirements.txt
+      - ./airflow/simple_auth_manager_passwords.json.generated:/opt/airflow/simple_auth_manager_passwords.json.generated
+    # command: >
+    #   bash -c "
+    #     pip install -r /requirements.txt &&
+    #     airflow db migrate &&
+    #     airflow users create --email email --firstname firstname --lastname lastname --password cf --role Admin --username cf &&
+    #     airflow standalone
+    #   "
+
+    command: >
+      bash -c "
+        pip install -r /requirements.txt &&
+        airflow db migrate &&
+        airflow standalone
+      "
+    ports:
+      - "8080:8080"
 
 volumes:
   clickhouse-data:
   grafana-data:
+  airflow-db-volume:
+  pg_data:

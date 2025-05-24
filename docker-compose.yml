@@ -24,22 +24,34 @@ services:
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
   
   fake-stream: 
-    image: ubuntu
+    build: 
+      context: ./fake-stream
+      dockerfile: Dockerfile
     container_name: cf-fake-stream
     hostname: cf-fake-stream
     ports: 
       - '7777:7777'
     volumes:
       - ./fake-stream:/opt/fake-stream
+    environment:
+      - HOME=/opt/fake-stream
+    command: sleep infinity
+
 
   spark-clean:
+    build:
+      context: ./spark-clean
+      dockerfile: Dockerfile
     image: apache/spark:3.4.4
     container_name: cf-spark-clean
     hostname: cf-spark-clean
     environment:
       - SPARK_MODE=master
+      - HOME=/opt/spark/work-dir
     ports:
       - "4040:4040"  # UI Spark Web
     volumes:
-      - ./spark-app:/opt/spark-app
+      - ./spark-clean/work-dir:/opt/spark/work-dir
+      - ./spark-clean/conf:/opt/spark/conf
+      - ./spark-flatten/ivy-cache:/home/spark/.ivy2
     command: sleep infinity

@@ -1,0 +1,1 @@
+/opt/kafka/bin/kafka-topics.sh --create --topic cleaned --bootstrap-server localhost:19092

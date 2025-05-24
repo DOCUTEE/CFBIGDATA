@@ -22,27 +22,8 @@ services:
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
-  
-  fake-stream: 
-    image: ubuntu
-    container_name: cf-fake-stream
-    hostname: cf-fake-stream
-    ports: 
-      - '7777:7777'
     volumes:
-      - ./fake-stream:/opt/fake-stream
-
-  spark-clean:
-    image: apache/spark:3.4.4
-    container_name: cf-spark-clean
-    hostname: cf-spark-clean
-    environment:
-      - SPARK_MODE=master
-    ports:
-      - "4040:4040"  # UI Spark Web
-    volumes:
-      - ./spark-app:/opt/spark-app
-    command: sleep infinity
+      - ./kafka/:/home/appuser/
 
   spark-flatten:
     image: apache/spark:3.4.4
@@ -57,6 +38,7 @@ services:
       - ./spark-app:/opt/spark-app
       - ./spark-flatten/ivy-cache:/home/spark/.ivy2 
       - ./spark-flatten/conf:/opt/spark/conf/
+      - ./spark-flatten/home/:/opt/spark/work-dir
     command: sleep infinity
 
   spark-transform:
@@ -96,15 +78,15 @@ services:
       GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
       GF_AUTH_ANONYMOUS_ORG_ID: 1
     volumes:
+      - ./grafana/conf:/usr/share/grafana/conf
       - grafana-data:/var/lib/grafana
-    depends_on:
-      - clickhouse
   
   clickhouse:
     image: clickhouse/clickhouse-server:latest
     container_name: cf-clickhouse
     hostname: cf-clickhouse
     environment:
+      HOME: /home/clickhouse
       CLICKHOUSE_USER: root
       CLICKHOUSE_PASSWORD: root
       CLICKHOUSE_DB: default
@@ -112,6 +94,7 @@ services:
       - "8123:8123"
       - "9000:9000"
     volumes:
+      - ./clickhouse:/home/clickhouse/
       - clickhouse-data:/var/lib/clickhouse
 
 volumes:

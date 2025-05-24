@@ -2,11 +2,11 @@
 
 Big Data Architecture
 
-```
+```                            
 +----------------------------------------------+                           
-|                   +-----------------+        |                           
-|                   |Kafka: submission|        |                           
-|                   +-----------------+        |                           
+|                   +------------------+       |                           
+|                   |Kafka: submissions|       |                           
+|                   +------------------+       |                           
 |+-----------------------+  |                  | Bronze                    
 ||Submissions Fake Stream|  |  +-------------+ |                           
 ||(Python script)        +--v-->Spark (Clean)| |                           
@@ -31,5 +31,5 @@ Big Data Architecture
       |                               |                                    
   +---v---+                      +----v---+                                
   |Grafana|                      |Superset|                                
-  +-------+                      +--------+                                
+  +-------+                      +--------+                                                         
 ```

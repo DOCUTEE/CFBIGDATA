@@ -44,7 +44,8 @@ services:
       - clickhouse-data:/var/lib/clickhouse
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+    container_name: cf-grafana
+    hostname: cf-grafana
     ports:
       - "3000:3000"
     environment:
@@ -52,6 +53,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-data:/var/lib/grafana
+  
 
 volumes:
   clickhouse-data:

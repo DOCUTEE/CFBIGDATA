@@ -46,6 +46,7 @@ services:
       - "4042:4040"  # UI Spark Web
     volumes:
       - ./spark-cleaned:/opt/spark-cleaned
+      - ./spark-conf:/opt/bitnami/spark/conf
     command: sleep infinity
   spark-transform:
     image: bitnami/spark:3.4.3

@@ -1,20 +1,22 @@
 #!/bin/bash
 
-BOOTSTRAP_SERVER="localhost:19092"
-REQUIRED_TOPICS=("cleaned" "submissions")
-
-# Lấy danh sách các topic hiện có
-EXISTING_TOPICS=$(/opt/kafka/bin/kafka-topics.sh --list --bootstrap-server "$BOOTSTRAP_SERVER")
+REQUIRED_TOPICS=(
+    "submissions"
+    "cleaned"
+)
 
 for topic in "${REQUIRED_TOPICS[@]}"; do
-    if echo "$EXISTING_TOPICS" | grep -q "^${topic}$"; then
-        echo "Topic '${topic}' đã tồn tại."
-    else
-        echo "Topic '${topic}' chưa tồn tại. Đang tạo..."
-        /opt/kafka/bin/kafka-topics.sh --create \
-            --topic "$topic" \
-            --bootstrap-server "$BOOTSTRAP_SERVER" \
-            --partitions 1 \
-            --replication-factor 1
+    # Kiểm tra nếu topic đã tồn tại
+    if /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:19092 --list | grep -q "^${topic}$"; then
+        echo "Topic '${topic}' đã tồn tại. Đang xóa..."
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:19092 --delete --topic $topic
+
     fi
+
+    echo "Đang tạo lại topic '${topic}'..."
+    /opt/kafka/bin/kafka-topics.sh --create \
+        --topic "$topic" \
+        --bootstrap-server "localhost:19092"
 done
+
+/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:19092 --delete --topic submissions

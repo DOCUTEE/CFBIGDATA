@@ -4,7 +4,7 @@ import json
 import time
 
 # Đường dẫn file parquet
-PARQUET_FILE_PATH = './Submission_contest_2096.parquet'  
+PARQUET_FILE_PATH = '/opt/fake-stream/Submission_contest_2096.parquet'  
 
 # Tên topic Kafka
 KAFKA_TOPIC = 'submissions'

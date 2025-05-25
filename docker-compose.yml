@@ -6,6 +6,7 @@ services:
     ports:
       - '9092:9092'
     environment:
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_NODE_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT_HOST://localhost:9092,PLAINTEXT://cf-broker:19092'
@@ -128,7 +129,7 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   airflow:
-    image: apache/airflow:3.0.0
+    image: apache/airflow:2.11.0
     container_name: cf-airflow
     hostname: cf-airflow
     depends_on:
@@ -145,21 +146,21 @@ services:
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
       - ./airflow/requirements.txt:/requirements.txt
-      - ./airflow/simple_auth_manager_passwords.json.generated:/opt/airflow/simple_auth_manager_passwords.json.generated
-    # command: >
-    #   bash -c "
-    #     pip install -r /requirements.txt &&
-    #     airflow db migrate &&
-    #     airflow users create --email email --firstname firstname --lastname lastname --password cf --role Admin --username cf &&
-    #     airflow standalone
-    #   "
-
+      # - ./airflow/simple_auth_manager_passwords.json.generated:/opt/airflow/simple_auth_manager_passwords.json.generated
     command: >
       bash -c "
         pip install -r /requirements.txt &&
         airflow db migrate &&
+        airflow users create --email email --firstname firstname --lastname lastname --password cf --role Admin --username cf &&
         airflow standalone
       "
+
+    # command: >
+    #   bash -c "
+    #     pip install -r /requirements.txt &&
+    #     airflow db migrate &&
+    #     airflow standalone
+    #   "
     ports:
       - "8080:8080"
 

@@ -1,25 +1,16 @@
 from airflow import DAG
-from airflow.operators.empty import EmptyOperator
-from airflow.operators.python import PythonOperator
 from datetime import datetime
-import docker
 from datetime import timedelta
+from airflow.operators.bash import BashOperator
+from airflow.operators.dummy_operator import DummyOperator
 
-client = docker.from_env()
-
-def exec_cmd_in_container(container_name, command):
-    container = client.containers.get(container_name)
-    exit_code, output = container.exec_run(command)
-    print(f"[{container_name}] Output: {output.decode()} (exit={exit_code})")
-    if exit_code != 0:
-        raise Exception(f"Command failed in {container_name}")
 
 with DAG(
     'data_pipeline',
     default_args={
         "depends_on_past": False,
         "retries": 1,
-        "retry_delay": timedelta(seconds=5),
+        "retry_delay": timedelta(minutes=5),
         # 'queue': 'bash_queue',
         # 'pool': 'backfill',
         # 'priority_weight': 10,
@@ -32,41 +23,35 @@ with DAG(
         # 'sla_miss_callback': yet_another_function, # or list of functions
         # 'on_skipped_callback': another_function, #or list of functions
         # 'trigger_rule': 'all_success'
+        "start_date": datetime(2024, 1, 1),
     },
     description='A DAG to manage and interact with containers in Docker Compose',
     schedule=timedelta(days=1),
     catchup=False,
 ) as dag:
-        create_topics = PythonOperator(
+        start = DummyOperator(task_id='start')
+        create_topics = BashOperator(
                 task_id="create_topics",
-                python_callable=lambda: exec_cmd_in_container(
-                "cf-broker", "bash /home/appuser/create_topics.sh"
-                )
+                bash_command="docker exec cf-broker bash /home/appuser/create_topics.sh ",
         )
-        init_clickhouse = PythonOperator(
+        init_clickhouse = BashOperator(
                 task_id="init_clickhouse",
-                python_callable=lambda: exec_cmd_in_container(
-                "cf-clickhouse", "bash /home/clickhouse/create_table.sh"
-                )
+                bash_command="docker exec cf-clickhouse bash /home/clickhouse/create_table.sh ",
+               
+
         )
-        fake_stream = PythonOperator(
-                task_id="run_fake_stream",
-                python_callable=lambda: exec_cmd_in_container(
-                "cf-fake-stream", "python /opt/fake-stream/send_by_time.py"
-                )
+        fake_stream = BashOperator(
+                task_id="fake_stream",
+                bash_command="docker exec cf-fake-stream python /opt/fake-stream/send_by_time.py ",
         )
-        spark_clean = PythonOperator(
-                task_id="run_spark_clean",
-                python_callable=lambda: exec_cmd_in_container(
-                "cf-spark-clean", "bash /opt/spark/work-dir/submit_get_and_clean.sh"
-                )
+        spark_clean = BashOperator(
+                task_id="spark_clean",
+                bash_command="docker exec cf-spark-clean bash /opt/spark/work-dir/submit_get_and_clean.sh ",
         )
-        spark_flatten = PythonOperator(
-                task_id="run_spark_flatten",
-                python_callable=lambda: exec_cmd_in_container(
-                "cf-spark-flatten", "bash /opt/spark/work-dir/submit_flatten.sh"
-                )
+        spark_flatten = BashOperator(
+                task_id="spark_flatten",
+                bash_command="docker exec cf-spark-flatten bash /opt/spark/work-dir/submit_flatten.sh ",
         )
-        create_topics >> init_clickhouse
+        start >> create_topics >> init_clickhouse
         init_clickhouse >> [fake_stream, spark_clean, spark_flatten]
         

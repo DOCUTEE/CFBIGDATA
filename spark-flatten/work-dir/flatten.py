@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import from_json, col, explode, regexp_replace, split
+from pyspark.sql.functions import from_json, col, expr
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, LongType
 
 # Khởi tạo Spark Session với các package cần thiết
@@ -44,7 +44,7 @@ parsed_df = kafka_df.select(
 # Làm phẳng trường problem và xử lý tags
 flattened_df = parsed_df.select(
     col("id"),
-    col("relativeTimeSeconds"),
+    (expr("timestamp_seconds(relativeTimeSeconds)")).alias("relativeTime"),
     col("programmingLanguage"),
     col("verdict"),
     col("passedTestCount"),

@@ -1,0 +1,16 @@
+Configuration:
+  Properties:
+    Property:
+    - name: "logPattern"
+      value: "[%d] %p %m (%c)%n"
+  Appenders:
+    Console:
+      name: "STDERR"
+      target: "SYSTEM_ERR"
+      PatternLayout:
+        pattern: "${logPattern}"
+  Loggers:
+    Root:
+      level: "WARN"
+      AppenderRef:
+      - ref: "STDERR"

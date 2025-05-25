@@ -1,3 +1,15 @@
 ls
 pwd
 exit
+exit
+bash
+/opt/spark/work-dir/submit_flatten.sh 
+exit
+ls
+clear
+./
+clear
+ls
+./submit_flatten.sh
+./submit_flatten.sh
+exit

@@ -21,6 +21,7 @@ CREATE TABLE cf.submissions
 ENGINE = MergeTree
 ORDER BY id;
 
+DROP DATABASE IF EXISTS lakehouse;
 CREATE DATABASE IF NOT EXISTS lakehouse; 
 USE lakehouse;
 
@@ -32,9 +33,9 @@ ORDER BY user_id;
 
 CREATE TABLE dim_problem (
     problem_id String,
-    contestId String,
-    index String,
-    name String,
+    contest_id String,
+    problem_index String,
+    problem_name String,
     points Float32,
     rating Float32
 ) ENGINE = MergeTree()

@@ -79,6 +79,8 @@ def write_to_clickhouse(batch_df, batch_id):
         "password": "root"
     }
     
+    global stop_flag
+    
      # Kiểm tra nếu có dòng với id = -1
     if batch_df.filter(col("id") == -1).count() > 0:
         print("Detected id = -1, initiating graceful stop...")

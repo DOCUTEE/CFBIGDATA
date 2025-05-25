@@ -56,7 +56,7 @@ services:
     volumes:
       - ./spark-clean/work-dir:/opt/spark/work-dir
       - ./spark-clean/conf:/opt/spark/conf
-      - ./spark-flatten/ivy-cache:/home/spark/.ivy2
+      - ./spark-clean/ivy-cache:/home/spark/.ivy2
     command: sleep infinity
 
   spark-flatten:
@@ -75,18 +75,18 @@ services:
     command: sleep infinity
 
   spark-clickhouse:
-    image: bitnami/spark:3.4.3
-    container_name: spark-clickhouse
+    image: apache/spark:3.4.4
+    container_name: cf-spark-clickhouse
+    hostname: cf-spark-clickhouse
     environment:
       - SPARK_MODE=master
       - HOME=/opt/spark/work-dir
     ports:
       - "4045:4040"  # UI Spark Web
     volumes:
-      - ./spark-clickhouse:/opt/spark-clickhouse
+      - ./spark-flatten/ivy-cache:/home/spark/.ivy2 
+      - ./spark-clickhouse:/opt/spark/work-dir
     command: sleep infinity
-    networks:
-      - data_network
 
 
   superset:
@@ -242,7 +242,6 @@ volumes:
   grafana-data:
   airflow-db-volume:
   pg_data:
-  grafana-data:
   minio_data:
   superset_home:
 

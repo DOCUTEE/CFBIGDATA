@@ -9,7 +9,7 @@ with DAG(
     'data_pipeline',
     default_args={
         "depends_on_past": False,
-        "retries": 1,
+        "retries": 5,
         "retry_delay": timedelta(minutes=5),
         # 'queue': 'bash_queue',
         # 'pool': 'backfill',
@@ -64,10 +64,12 @@ with DAG(
                 task_id="spark_transform",
                 bash_command="docker exec cf-spark-transform bash /opt/spark/work-dir/submit_transform.sh ",
         )
+        spark_clickhouse = BashOperator(
+                task_id="spark_clickhouse",
+                bash_command="docker exec cf-spark-clickhouse bash /opt/spark/work-dir/submit_spark_to_clickhouse.sh ",
+        )
         
         start >> init_buckets >> create_topics >> init_clickhouse
-        init_clickhouse >> [fake_stream, spark_clean, spark_flatten]
-        
-        init_clickhouse >> spark_cleaned
+        init_clickhouse >> [spark_clean, spark_flatten, spark_cleaned, fake_stream]
         spark_cleaned >> spark_transform
-        
+        spark_transform >> spark_clickhouse

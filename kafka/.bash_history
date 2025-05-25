@@ -22,3 +22,11 @@ dos2unix create_topics.sh
 ./create_topics.sh 
 ./create_topics.sh 
 exit
+ls
+cd
+ls
+dos2unix create_topics.sh 
+docker
+exit
+dos2unix ~/create_topics.sh 
+exit

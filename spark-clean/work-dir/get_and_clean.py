@@ -66,6 +66,7 @@ spark = SparkSession.builder \
 
 df = spark.readStream.format("kafka") \
     .option("kafka.bootstrap.servers", "cf-broker:19092") \
+    .option("startingOffsets", "earliest") \
     .option("subscribe", "submissions") \
     .load()
 

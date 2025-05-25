@@ -35,7 +35,7 @@ df_problem_exploded = df_problem_exploded.withColumn("problem_id", sha2(concat_w
 df_problem_exploded = df_problem_exploded.withColumn("tag_id", sha2(col("problem_tag"), 256))
 
 df_dim_problem = df_problem_exploded.select(
-    "problem_id", "contestId", "index", "name", "points", "rating"
+    "problem_id", col("contestId").alias("contest_id"), col("index").alias("problem_index"), col("name").alias("problem_name"), "points", "rating"
 ).dropDuplicates()
 
 df_dim_tag = df_problem_exploded.select(
@@ -60,8 +60,8 @@ df_fact_submission = df \
     .join(df_dim_user, df.handle == df_dim_user.user_handle, "inner") \
     .join(
         df_dim_problem,
-        (df.problem.contestId == df_dim_problem.contestId) &
-        (df.problem.index == df_dim_problem.index),
+        (df.problem.contestId == df_dim_problem.contest_id) &
+        (df.problem.index == df_dim_problem.problem_index),
         "inner"
     ) \
     .join(df_dim_verdict, df.verdict == df_dim_verdict.verdict_name, "inner") \

@@ -69,6 +69,8 @@ df_parsed = df_tags_array.withColumn(
     )
 )
 
+stop_flag = False
+
 def process_batch(batch_df, batch_id):
     global stop_flag
 

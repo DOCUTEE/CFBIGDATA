@@ -1,0 +1,1 @@
+/opt/spark/bin/spark-submit /opt/spark/work-dir/get_and_clean.py

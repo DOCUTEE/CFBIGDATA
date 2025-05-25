@@ -1,2 +1,13 @@
 env/
 test/
+readParquet.py
+Submission_contest_2096.json
+Submission_contest_2096.parquet
+producer.py
+spark-transform/checkpoint/
+spark-transform/delta-data/
+readDelta.py
+uploadtoS3.py
+spark-cleaned/ivy-cache/*
+spark-flatten/ivy-cache/*
+spark-transform/ivy-cache/*

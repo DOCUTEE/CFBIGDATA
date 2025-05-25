@@ -1,0 +1,1 @@
+./opt/kafka/bin/kafka-topics.sh --create --topic submissions --bootstrap-server localhost:9092

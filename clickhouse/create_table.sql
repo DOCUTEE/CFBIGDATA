@@ -20,3 +20,60 @@ CREATE TABLE cf.submissions
 )
 ENGINE = MergeTree
 ORDER BY id;
+
+CREATE DATABASE IF NOT EXISTS lakehouse; 
+USE lakehouse;
+
+CREATE TABLE dim_user (
+    user_id String,
+    user_handle String
+) ENGINE = MergeTree()
+ORDER BY user_id;
+
+CREATE TABLE dim_problem (
+    problem_id String,
+    contestId String,
+    index String,
+    name String,
+    points Float32,
+    rating Float32
+) ENGINE = MergeTree()
+ORDER BY problem_id;
+
+CREATE TABLE dim_verdict (
+    verdict_id String,
+    verdict_name String
+) ENGINE = MergeTree()
+ORDER BY verdict_id;
+
+
+CREATE TABLE dim_language (
+    language_id String,
+    language_name String
+) ENGINE = MergeTree()
+ORDER BY language_id;
+
+CREATE TABLE dim_tag (
+    tag_id String,
+    tag_name String
+) ENGINE = MergeTree()
+ORDER BY tag_id;
+
+CREATE TABLE dim_tag_problem (
+    problem_id String,
+    tag_id String
+) ENGINE = MergeTree()
+ORDER BY (problem_id, tag_id);
+
+CREATE TABLE fact_submission (
+    submission_id Int32,
+    user_id String,
+    problem_id String,
+    verdict_id String,
+    language_id String,
+    relative_time_seconds Int32,
+    passed_test_count Int32,
+    time_consumed_millis Float32,
+    memory_consumed_bytes Float32
+) ENGINE = MergeTree()
+ORDER BY submission_id;

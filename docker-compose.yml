@@ -40,8 +40,7 @@ services:
     environment:
       - HOME=/opt/fake-stream
     command: sleep infinity
-
-
+    
   spark-clean:
     build:
       context: ./spark-clean
@@ -75,6 +74,21 @@ services:
       - ./spark-flatten/work-dir/:/opt/spark/work-dir
     command: sleep infinity
 
+  spark-clickhouse:
+    image: bitnami/spark:3.4.3
+    container_name: spark-clickhouse
+    environment:
+      - SPARK_MODE=master
+      - HOME=/opt/spark/work-dir
+    ports:
+      - "4045:4040"  # UI Spark Web
+    volumes:
+      - ./spark-clickhouse:/opt/spark-clickhouse
+    command: sleep infinity
+    networks:
+      - data_network
+
+
   superset:
     image: apache/superset:latest
     container_name: cf-superset
@@ -100,19 +114,19 @@ services:
     volumes:
       - ./grafana/conf:/usr/share/grafana/conf
       - grafana-data:/var/lib/grafana
-  
+
   clickhouse:
     image: clickhouse/clickhouse-server:latest
     container_name: cf-clickhouse
     hostname: cf-clickhouse
-    ports:
-      - "8123:8123"  # HTTP
-      - "9000:9000"  # Native
     environment:
       HOME: /home/clickhouse
       CLICKHOUSE_USER: root
       CLICKHOUSE_PASSWORD: root
       CLICKHOUSE_DB: default
+    ports:
+      - "8123:8123"  # HTTP
+      - "9000:9000"  # Native
     volumes:
       - ./clickhouse:/home/clickhouse/
       - clickhouse-data:/var/lib/CLICKHOUSE_DB
@@ -228,8 +242,7 @@ volumes:
   grafana-data:
   airflow-db-volume:
   pg_data:
+  grafana-data:
   minio_data:
   superset_home:
-  metastore-db:
-  trino-data:
-  hive-metastore-postgresql:
+

@@ -24,6 +24,8 @@ services:
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+    networks:
+      - data_network
   spark-bronze:
     image: bitnami/spark:3.4.3
     container_name: spark-bronze
@@ -35,6 +37,8 @@ services:
     volumes:
       - ./spark-app:/opt/spark-app
     command: sleep infinity
+    networks:
+      - data_network
 
   spark-cleaned:
     image: bitnami/spark:3.4.3
@@ -46,8 +50,9 @@ services:
       - "4042:4040"  # UI Spark Web
     volumes:
       - ./spark-cleaned:/opt/spark-cleaned
-      - ./spark-conf:/opt/bitnami/spark/conf
     command: sleep infinity
+    networks:
+      - data_network
   spark-transform:
     image: bitnami/spark:3.4.3
     container_name: spark-transform
@@ -59,7 +64,22 @@ services:
     volumes:
       - ./spark-transform:/opt/spark-transform
     command: sleep infinity
-
+    networks:
+      - data_network
+  spark-clickhouse:
+    image: bitnami/spark:3.4.3
+    container_name: spark-clickhouse
+    environment:
+      - SPARK_MODE=master
+      - HOME=/opt/spark/work-dir
+    ports:
+      - "4045:4040"  # UI Spark Web
+    volumes:
+      - ./spark-clickhouse:/opt/spark-clickhouse
+    command: sleep infinity
+    networks:
+      - data_network
+  
 
   minio:
     image: minio/minio
@@ -74,44 +94,26 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
-
-  metastore_db:
-    image: postgres:11
-    container_name: metastore_db
-    ports:
-      - 5443:5432
+    networks:
+      - data_network
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: cf-clickhouse
+    hostname: cf-clickhouse
     environment:
-      POSTGRES_USER: hive
-      POSTGRES_PASSWORD: hive
-      POSTGRES_DB: metastore
-    command: [ "postgres", "-c", "wal_level=logical" ]
+      HOME: /home/clickhouse
+      CLICKHOUSE_USER: root
+      CLICKHOUSE_PASSWORD: root
+      CLICKHOUSE_DB: default
+    ports:
+      - "8123:8123"
+      - "9000:9000"
     volumes:
-      - ./postgresscripts:/docker-entrypoint-initdb.d
-    
-
-  hive-metastore:
-    hostname: hive-metastore
-    image: 'starburstdata/hive:3.1.2-e.18'
-    ports:
-      - '9083:9083' # Metastore Thrift
-    environment:
-      HIVE_METASTORE_DRIVER: org.postgresql.Driver
-      HIVE_METASTORE_JDBC_URL: jdbc:postgresql://metastore_db:5432/metastore
-      HIVE_METASTORE_USER: hive
-      HIVE_METASTORE_PASSWORD: hive
-      HIVE_METASTORE_WAREHOUSE_DIR: s3://datalake/
-      S3_ENDPOINT: http://minio:9000
-      S3_ACCESS_KEY: minio
-      S3_SECRET_KEY: minio123
-      S3_PATH_STYLE_ACCESS: "true"
-      HIVE_METASTORE_USERS_IN_ADMIN_ROLE: "admin"
-    
-    depends_on:
-      - metastore_db
-    healthcheck:
-      test: bash -c "exec 6<> /dev/tcp/localhost/9083"
-
-
+      - ./clickhouse:/home/clickhouse/
+      - clickhouse-data:/var/lib/clickhouse
+    networks:
+      - data_network
+  
 volumes:
   clickhouse-data:
   grafana-data:
@@ -119,4 +121,9 @@ volumes:
   superset_home:
   metastore-db:
   trino-data:
-  hive-metastore-postgresql:
+  mysql-data:
+
+networks:
+  data_network:
+    driver: bridge
+

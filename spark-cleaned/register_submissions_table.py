@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
-    .appName("RegisterSubmissionsDeltaWithHive") \
+    .appName("SampleDeltaWithHive") \
     .config("spark.sql.catalogImplementation", "hive") \
     .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
     .config("spark.hadoop.fs.s3a.access.key", "minio") \
@@ -13,12 +13,20 @@ spark = SparkSession.builder \
     .enableHiveSupport() \
     .getOrCreate()
 
-# Register the Delta Lake table with Hive
-spark.sql("""
-CREATE TABLE IF NOT EXISTS submissions
+# 1. Create a sample DataFrame
+data = [("alice", 1), ("bob", 2)]
+df = spark.createDataFrame(data, ["name", "id"])
+
+# 2. Save as Delta table to MinIO
+delta_path = "s3a://silver/sample_table"
+df.write.format("delta").mode("overwrite").save(delta_path)
+
+# 3. Register the Delta table with Hive
+spark.sql(f"""
+CREATE TABLE IF NOT EXISTS sample_table
 USING DELTA
-LOCATION 's3a://silver/submissions'
+LOCATION '{delta_path}'
 """)
 
-# Confirm the table is visible in the metastore
+# 4. Confirm the table is visible in the metastore
 spark.sql("SHOW TABLES").show()

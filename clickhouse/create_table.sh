@@ -1,0 +1,1 @@
+clickhouse-client --queries-file /home/clickhouse/create_table.sql

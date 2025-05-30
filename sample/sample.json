@@ -1,0 +1,182 @@
+[
+    {
+        "id": 316234641,
+        "relativeTimeSeconds": 80,
+        "programmingLanguage": "Python 3",
+        "verdict": "OK",
+        "passedTestCount": 15,
+        "timeConsumedMillis": 52,
+        "memoryConsumedBytes": 196608,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "coderLinh"
+    },
+    {
+        "id": 316234642,
+        "relativeTimeSeconds": 85,
+        "programmingLanguage": "GNU C++20 (64)",
+        "verdict": "WRONG_ANSWER",
+        "passedTestCount": 3,
+        "timeConsumedMillis": 40,
+        "memoryConsumedBytes": 229376,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "kiencpp"
+    },
+    {
+        "id": 316234643,
+        "relativeTimeSeconds": 89,
+        "programmingLanguage": "C# 10",
+        "verdict": "COMPILATION_ERROR",
+        "passedTestCount": 0,
+        "timeConsumedMillis": 0,
+        "memoryConsumedBytes": 0,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "dotNetWarrior"
+    },
+    {
+        "id": 316234644,
+        "relativeTimeSeconds": 92,
+        "programmingLanguage": "Python 3",
+        "verdict": "TIME_LIMIT_EXCEEDED",
+        "passedTestCount": 9,
+        "timeConsumedMillis": 2000,
+        "memoryConsumedBytes": 458752,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "lazy_algo"
+    },
+    {
+        "id": 316234645,
+        "relativeTimeSeconds": 97,
+        "programmingLanguage": "Java 17",
+        "verdict": "RUNTIME_ERROR",
+        "passedTestCount": 6,
+        "timeConsumedMillis": 110,
+        "memoryConsumedBytes": 393216,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "javaKing"
+    },
+    {
+        "id": 316234646,
+        "relativeTimeSeconds": 102,
+        "programmingLanguage": "Rust 2021",
+        "verdict": "OK",
+        "passedTestCount": 15,
+        "timeConsumedMillis": 61,
+        "memoryConsumedBytes": 172032,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "trustRust"
+    },
+    {
+        "id": 316234647,
+        "relativeTimeSeconds": 110,
+        "programmingLanguage": "GNU C++17",
+        "verdict": "WRONG_ANSWER",
+        "passedTestCount": 2,
+        "timeConsumedMillis": 33,
+        "memoryConsumedBytes": 122880,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "fastFail"
+    },
+    {
+        "id": 316234648,
+        "relativeTimeSeconds": 115,
+        "programmingLanguage": "Python 3",
+        "verdict": "OK",
+        "passedTestCount": 15,
+        "timeConsumedMillis": 70,
+        "memoryConsumedBytes": 212992,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "py_battle"
+    },
+    {
+        "id": 316234649,
+        "relativeTimeSeconds": 119,
+        "programmingLanguage": "Go",
+        "verdict": "OK",
+        "passedTestCount": 15,
+        "timeConsumedMillis": 59,
+        "memoryConsumedBytes": 184320,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "golang_pro"
+    },
+    {
+        "id": 316234650,
+        "relativeTimeSeconds": 123,
+        "programmingLanguage": "GNU C++20 (64)",
+        "verdict": "OK",
+        "passedTestCount": 15,
+        "timeConsumedMillis": 48,
+        "memoryConsumedBytes": 180224,
+        "problem": {
+            "contestId": 2096,
+            "index": "A",
+            "name": "Wonderful Sticks",
+            "points": 500.0,
+            "rating": 800,
+            "tags": ["constructive algorithms", "greedy"]
+        },
+        "handle": "super_coder"
+    }
+]

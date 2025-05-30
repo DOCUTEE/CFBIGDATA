@@ -1,0 +1,1 @@
+/opt/spark/bin/spark-submit --packages com.clickhouse:clickhouse-jdbc:0.4.6,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 /opt/spark/work-dir/flatten.py 

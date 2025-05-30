@@ -11,3 +11,6 @@ uploadtoS3.py
 spark-cleaned/ivy-cache/*
 spark-flatten/ivy-cache/*
 spark-transform/ivy-cache/*
+spark-clean/work-dir/.local/*
+spark-clean/ivy-cache/*
+airflow/dags/__pycache__/*

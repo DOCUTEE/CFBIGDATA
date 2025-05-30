@@ -16,7 +16,7 @@ producer = KafkaProducer(
 )
 
 # limit = -1
-limit = 10
+limit = -1
 
 # Đọc dữ liệu từ file Parquet
 df = pd.read_parquet(PARQUET_FILE_PATH)

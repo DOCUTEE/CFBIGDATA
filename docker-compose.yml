@@ -88,18 +88,6 @@ services:
       - ./spark-clickhouse:/opt/spark/work-dir
     command: sleep infinity
 
-
-  superset:
-    image: apache/superset:latest
-    container_name: cf-superset
-    hostname: cf-superset
-    ports:
-      - "8088:8088"
-    environment:
-      SUPERSET_ENV: production
-      SUPERSET_SECRET_KEY: mysecret
-    # command: superset fab create-admin --username admin --password admin --firstname Admin --lastname User --email admin@admin.com
-
   grafana:
     image: grafana/grafana:latest
     container_name: cf-grafana
